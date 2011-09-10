@@ -11,9 +11,8 @@
     $doc = new SimpleXmlElement($data);
     $internships = $doc->channel->item;
   } else {
-    /* TODO: Log error messages somewhere useful. */
     $feed_err[0] = true;
-    $feed_err[1] = "curl_exec failed.";
+    $feed_err[1] = "curl_exec failed."
   }
 ?>
 

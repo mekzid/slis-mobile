@@ -1,55 +1,36 @@
 <?php
-error_reporting(E_ALL);
+  error_reporting(E_ALL);
 
-require_once 'Zend/Loader.php';
-Zend_Loader::loadClass('Zend_Gdata');
-Zend_Loader::loadClass('Zend_Gdata_App_exception');
-Zend_Loader::loadClass('Zend_Gdata_Calendar');
+  require_once 'Zend/Loader.php';
+  Zend_Loader::loadClass('Zend_Gdata');
+  Zend_Loader::loadClass('Zend_Gdata_App_exception');
+  Zend_Loader::loadClass('Zend_Gdata_Calendar');
 
-$gdataCal = new Zend_Gdata_Calendar();
-$query = $gdataCal->newEventQuery();
+  /* No authentication necessary since we're accessing a public feed. */
+  $gdataCal = new Zend_Gdata_Calendar();
+  $query = $gdataCal->newEventQuery();
+  $query->setUser('sliscalendar@gmail.com');
+  $query->setProjection('basic');
 
-$query->setUser('sliscalendar@gmail.com');
-$query->setProjection('basic');
-$now = date('Y-n-j');
-$later = date('Y-n-j', strtotime('+1 month'));
+  /* Get next 30 days of events. */
+  $now = date('Y-n-j');
+  $later = date('Y-n-j', strtotime('+1 month'));
+  $query->setStartMin($now);
+  $query->setStartMax($later);
 
-$query->setStartMin($now);
-$query->setStartMax($later);
-$query->setOrderby('starttime');
-$query->setSortOrder('ascending');
+  $query->setOrderby('starttime');
+  $query->setSortOrder('ascending');
 
-try {
-  $feed_err[0] = false;
-  $feed = $gdataCal->getCalendarEventFeed($query);
-//var_dump($feed);
-/*
-  foreach ($feed as $item) {
-    echo '<ul>';
-    echo '<li>' . $item->getTitle() . "</li>";
-    echo '<li>' . $item->getSummary() . "</li>";
-    echo '<li>' . $item->getContent() . "</li>";
-    $a = $item->getLink();
-    echo '<li>' . $a[0]->getHref() . "</li>";
-    echo '</ul>';
+  try {
+    $feed_err[0] = false;
+    $feed = $gdataCal->getCalendarEventFeed($query);
+  } catch (Zend_Gdata_App_Exception $e) {
+    /* TODO: Log error messages somewhere useful. */
+    $feed_err[0] = true;
+    $feed_err[1] = $e->getMessage();
   }
-*/
-} catch (Zend_Gdata_App_Exception $e) {
-  $feed_err[0] = true;
-  $feed_err[1] = $e->getMessage();
-}
-
-function getWhenWhere($summary) {
-  $when_where = '';
-  $tok = strtok($summary);
-  while ($tok !== false) {
-    $when_where .= $tok;
-    $when_where .= '<br />';
-    $tok = strtok(" \n\t");
-  }
-  return $when_where;
-}
 ?>
+
 <!DOCTYPE html> 
 <html> 
 <head> 
@@ -82,7 +63,6 @@ function getWhenWhere($summary) {
     foreach ($feed as $item) {
       echo '<li><h2>' . $item->getTitle() . "</h2>";
       echo '<p>' . $item->getSummary() . ' ';
-      echo getWhenWhere($item->getSummary());
       $event_link = $item->getLink();
       echo '</p><p><a rel="external" href="' . $event_link[0]->getHref() .
            '">more details >></a>';

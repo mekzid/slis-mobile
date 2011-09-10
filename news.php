@@ -1,33 +1,19 @@
 <?php
   error_reporting(E_ALL);
 
-  require_once 'Zend/Loader.php';
-  Zend_Loader::loadClass('Zend_Gdata');
-  Zend_Loader::loadClass('Zend_Gdata_App_exception');
-  Zend_Loader::loadClass('Zend_Gdata_Calendar');
+  $ch = curl_init("http://slisweb.sjsu.edu/rss/slis-news.xml");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-  /* No authentication necessary since we're accessing a public feed. */
-  $gdataCal = new Zend_Gdata_Calendar();
-  $query = $gdataCal->newEventQuery();
-  $query->setUser('sliscalendar@gmail.com');
-  $query->setProjection('basic');
+  $feed_err[0] = false;
 
-  /* Get next 30 days of events. */
-  $now = date('Y-n-j');
-  $later = date('Y-n-j', strtotime('+1 month'));
-  $query->setStartMin($now);
-  $query->setStartMax($later);
-
-  $query->setOrderby('starttime');
-  $query->setSortOrder('ascending');
-
-  try {
-    $feed_err[0] = false;
-    $feed = $gdataCal->getCalendarEventFeed($query);
-  } catch (Zend_Gdata_App_Exception $e) {
+  if ($data = curl_exec($ch)) {
+    curl_close($ch);
+    $doc = new SimpleXmlElement($data);
+    $news = $doc->channel->item;
+  } else {
     /* TODO: Log error messages somewhere useful. */
     $feed_err[0] = true;
-    $feed_err[1] = $e->getMessage();
+    $feed_err[1] = "curl_exec failed.";
   }
 ?>
 
@@ -44,29 +30,29 @@
   <script type="text/javascript" src="assets/js/application.js"></script>
 </head> 
 <body>
-  <div data-role="page">
+  <div id="news-page" data-role="page">
     <div id="logo-wrapper">
       <a href="index.html"><img id="logo" src="/assets/images/slislogo.png" /></a>
     </div>
     <div data-role="header" data-theme="b">
       <a href="index.html" data-role="button" data-icon="back">Back</a>
-      <h1>Calendar</h1>
+      <h1>News</h1>
     </div>
     <div data-role="content" data-theme="b"> 
 <?php
   if ($feed_err[0]) {
-    echo '<p class="error">Sorry, there was an error retreiving calendar events.  Please try again later.</p>';
+    echo '<p class="error">Sorry, there was an error retreiving the latest news.  Please try again later.</p>';
 ?>
 <?php
   } else {
-    echo '<ul data-role="listview" class="events">';
-    echo '<li data-role="list-divider">Next 30 Days</li>';
-    foreach ($feed as $item) {
-      echo '<li><h2>' . $item->getTitle() . "</h2>";
-      echo '<p>' . $item->getSummary() . ' ';
-      $event_link = $item->getLink();
-      echo '</p><p><a rel="external" href="' . $event_link[0]->getHref() .
-           '">more details >></a>';
+    echo '<ul data-role="listview" class="news">';
+
+    /* Show latest 5 news items. */
+    for ($i = 0; $i <= 4 && $i <= count($news); $i++) {
+      echo '<li><h2>' . $news[$i]->title . "</h2>";
+      echo '<p>' . $news[$i]->pubDate . '<br />';
+      echo $news[$i]->description . '<br />';
+      echo '<a rel="external" href="' . $news[$i]->link . '">more details >></a>';
       echo "</p></li>";
     }
     echo '</ul>';

@@ -24,9 +24,10 @@
   <meta charset="utf-8" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
+  <link rel="stylesheet" href="/assets/css/master.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
-  <link rel="stylesheet" href="/assets/css/master.css" />
+  <script type="text/javascript" src="assets/js/application.js"></script>
 </head> 
 <body>
   <div data-role="page">
@@ -44,12 +45,12 @@
 ?>
 <?php
   } else {
-    echo '<ul data-role="listview" class="events">';
+    echo '<ul data-role="listview" class="internships">';
     foreach ($internships as $internship) {
       echo '<li><h2>' . $internship->title . "</h2>";
       echo '<p>' . $internship->pubDate . '<br />';
       echo $internship->description . '<br />';
-      echo '<a rel="external" href="' . $internship->link . '">More Info</a>';
+      echo '<a rel="external" href="' . $internship->link . '">more details >></a>';
       echo "</p></li>";
     }
     echo '</ul>';

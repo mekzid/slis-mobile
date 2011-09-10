@@ -1,0 +1,62 @@
+/*
+ * SJSU SLIS Master Stylesheet
+ */
+
+/* header
+----------------------------------------*/
+
+#logo {
+  margin-left: 20px;
+  padding: 5px 0px;
+}
+
+
+/* main styles
+----------------------------------------*/
+
+/* JQuery Mobile overrides */
+
+.ui-li-desc {
+  /* Disable text truncating. */
+  white-space: normal;
+}
+
+.ui-li-heading {
+  /* Disable text truncating. */
+  white-space: normal;
+}
+
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+  /* Override right padding on list items. */
+  padding-right: 15px;
+}
+
+/* news list */
+
+.news li h2 {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+
+/* footer
+----------------------------------------*/
+
+#footer {
+  text-align: center;
+}
+
+#footer p {
+  font-size: .75em;
+  font-weight: normal;
+  padding: 8px 15px;
+}
+
+
+/* miscellaneous
+----------------------------------------*/
+
+.error {
+  color: #F33;
+}
+

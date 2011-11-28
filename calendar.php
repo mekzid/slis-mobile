@@ -3,7 +3,6 @@
 
   require_once 'Zend/Loader.php';
   Zend_Loader::loadClass('Zend_Gdata');
-  Zend_Loader::loadClass('Zend_Gdata_App_exception');
   Zend_Loader::loadClass('Zend_Gdata_Calendar');
 
   /* No authentication necessary since we're accessing a public feed. */

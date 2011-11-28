@@ -51,7 +51,7 @@
     for ($i = 0; $i <= 4 && $i <= count($news); $i++) {
       echo '<li><h2>' . $news[$i]->title . "</h2>";
       echo '<p>' . $news[$i]->pubDate . '<br />';
-      echo $news[$i]->description . '<br />';
+      echo strip_tags($news[$i]->description, '<a>') . '<br />';
       echo '<a rel="external" href="' . $news[$i]->link . '">more details >></a>';
       echo "</p></li>";
     }

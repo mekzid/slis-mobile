@@ -9,6 +9,18 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
   <script type="text/javascript" src="assets/js/application.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25803931-2']);
+    _gaq.push(['_setDomainName', 'hellarobots.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 </head> 
 <body>
   <div data-role="page">
@@ -21,15 +33,15 @@
     <div data-role="content" data-theme="b"> 
       <ul data-role="listview" data-inset="true">
         <li><a href="news.php">News</a></li>
-        <li><a href="faculty.html">Faculty</a></li>
-        <li><a href="internships.php">Recent Internships</a></li>
+        <li><a href="people.html">People</a></li>
+        <li><a href="internships.php">Internships</a></li>
         <li><a href="calendar.php">Calendar</a></li>
         <li><a href="http://maps.google.com/maps/place?ftid=0x808fcccbfb434707:0x87242c42b0f6d308&q=San+Jos%C3%A9+State+University,+Washington+Square,+San+Jose,+CA&hl=en&ved=0CA0Q-gswAA&sa=X&ei=Vn5YTuKaK4WxiQKsupGFCg" rel="external">Map</a></li>
       </ul>
       <ul data-role="listview" data-inset="true">
-        <li><a href="http://library.sjsu.edu/" rel="external">King Library Mobile</a></li>
-        <li><a href="http://slisweb.sjsu.edu" rel="external">Full SLIS Site</a></li>
-        <li><a href="http://m.sjsu.edu/" rel="external">SJSU Mobile</a></li>
+        <li><a href="http://slisweb.sjsu.edu" rel="external">Full Site</a></li>
+        <li><a href="http://library.sjsu.edu/" rel="external">SJSU Library</a></li>
+        <li><a href="http://m.sjsu.edu/" rel="external">SJSU</a></li>
       </ul>  
     </div>
     <div id="footer">

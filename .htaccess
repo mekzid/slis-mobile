@@ -1,3 +1,3 @@
 <IfModule mod_php5.c>
-  php_value include_path        ".:/Users/taberta/public_html/slisweb-mobile.local/private/ZendGdata-1.11.10/library"
+  php_value include_path        ".:/home/robert/public_html/slis.hellarobots.com/private/ZendGdata-1.11.10/library"
 </IfModule>
